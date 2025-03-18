@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Orders</title>
+    <style>
+        .product {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+        .product img {
+            width: 80px;
+            height: auto;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>My Orders</h1>
+    <div id="orders"></div> <!-- ✅ Fix: This div was missing -->
+
+    <script>
+        function displayOrders() {
+            let orders = JSON.parse(localStorage.getItem("orders")) || [];
+            let ordersContainer = document.getElementById("orders");
+            ordersContainer.innerHTML = "";
+
+            if (orders.length === 0) {
+                ordersContainer.innerHTML = "<p>No orders placed yet.</p>";
+                return;
+            }
+
+            orders.forEach(order => {
+                let orderElement = document.createElement("div");
+                orderElement.classList.add("product");
+                orderElement.innerHTML = `
+                    <img src="${order.image}" alt="${order.name}" class="product-image">
+                    <span>${order.name} - ₹${order.price}</span>
+                `;
+                ordersContainer.appendChild(orderElement);
+            });
+        }
+
+        displayOrders();
+    </script>
+
+</body>
+</html>
